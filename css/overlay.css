@@ -1,85 +1,117 @@
 @font-face {
-font-family: "Demarus";
-src: url("assets/fonts/DEMARUS.otf");
+  font-family: "Demarus";
+  src: url("assets/fonts/DEMARUS.otf");
 }
+
 body {
-margin: 0;
-padding: 0;
-overflow: hidden;
-font-family: "Demarus", sans-serif;
-color: white;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: "Demarus", sans-serif;
+  color: white;
 }
 
-/* Ini layer paling bawah (Aset dari Figma / After Effects) */
 .background-overlay {
-position: absolute;
-top: 0;
-left: 0;
-width: 1920px;
-height: 1080px;
-z-index: 1; /* Angka 1 berarti paling belakang */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  z-index: 1;
 }
 
-/* Ini layer kontainer untuk teks agar berada di atas background */
+.points-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  z-index: 2; /* Berada di atas background (1) */
+  object-fit: cover;
+  pointer-events: none;
+}
+
 .data-container {
-position: absolute;
-top: 0;
-left: 0;
-width: 1920px;
-height: 1080px;
-z-index: 2; /* Angka 2 berarti di depan background */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  z-index: 3; /* Teks dan Logo berada di layer teratas agar tidak tertutup Poin */
 }
 
-/* Atur posisi teks Tim Kiri secara presisi (geser angka top & left sesuai desain Figma Anda) */
 #teksTimKiri {
-position: absolute;
-top: 61px;
-left: 611px;
-font-size: 40px;
-font-weight: regular;
-text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Biar teks lebih terbaca */
+  position: absolute;
+  top: 61px;
+  left: 611px;
+  font-size: 40px;
+  font-weight: regular;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-/* Atur posisi teks Tim Kanan secara presisi */
 #teksTimKanan {
-position: absolute;
-top: 61px;
-right: 606px; /* Jarak dari kanan */
-font-size: 40px;
-font-weight: regular;
-text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  position: absolute;
+  top: 61px;
+  right: 606px;
+  font-size: 40px;
+  font-weight: regular;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 #Caster {
-position: absolute;
-top: 174px;
-right: 80px;
-font-size: 40px;
-text-align: center;
-width: 300px;
-text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); 
+  position: absolute;
+  top: 174px;
+  right: 80px;
+  font-size: 40px;
+  text-align: center;
+  width: 300px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-/* Pengaturan Logo Tim Kiri */
 #logoTimKiri {
-position: absolute;
-top: 12px;/* Atur jarak dari atas */
-left: 400px; /* Atur jarak dari kiri (biasanya di sebelah teks) */
-width: 100px; /* Lebar logo maksimal */
-height: 100px; /* Tinggi logo maksimal */
-object-fit: contain; /* PENTING: Agar gambar tidak peyang/distorsi */
+  position: absolute;
+  top: 12px;
+  left: 400px;
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
 }
 
-/* Pengaturan Logo Tim Kanan */
 #logoTimKanan {
-position: absolute;
-top: 12px;
-right: 400px; /* Atur jarak dari kanan */
-width: 100px;
-height: 100px;
-object-fit: contain;
+  position: absolute;
+  top: 12px;
+  right: 400px;
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
 }
 
 .teksTim {
-    top: 0;
+  top: 0;
+}
+
+/* ==================================
+   PENGATURAN BARU: MATCH & STAGE
+   ================================== */
+
+#MatchText {
+  position: absolute;
+  top: 255px; /* Sesuaikan turun/naiknya dari desain */
+  right: 0px;
+  font-family: "Poppins", sans-serif;
+  font-size: 48px;
+  font-weight: 900;
+  text-align: center;
+  width: 300px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+#StageText {
+  position: absolute;
+  top: 235px; /* Sesuaikan turun/naiknya dari desain, biasanya di bawah match */
+  right: 0px;
+  font-size: 24px;
+  text-align: center;
+  width: 300px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
 }

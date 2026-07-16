@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
@@ -13,59 +13,81 @@
     <link rel="stylesheet" href="css/overlay.css" />
   </head>
   <body>
-    <!-- LAYER 1: BACKGROUND (Ganti dengan <img> jika pakai .webp, atau <video> jika pakai .webm) -->
+    <!-- LAYER 1: BACKGROUND -->
+    <img
+      src="assets/In-Game Overlay.png"
+      class="background-overlay"
+      alt="Background"
+    />
+    <!-- LAYER 1: BACKGROUND -->
     <img
       src="assets/In-Game Overlay.png"
       class="background-overlay"
       alt="Background"
     />
 
-    <!-- JIKA PAKAI WEBM, gunakan kode ini dan hapus kode <img> di atas: 
-    <video src="assets/In-Game Overlay.webm" class="background-overlay" autoplay loop muted></video> 
-    -->
+    <!-- LAYER 2: SISTEM POIN (Shape Statis) -->
+    <!-- Default state memanggil poin 0-0 di BO1 agar shape awal terlihat -->
+    <img
+      id="PoinGambar"
+      src="assets/poin/0-0(1).png"
+      class="points-overlay"
+      alt="Score Points"
+    />
 
-    <!-- LAYER 2: TEKS & LOGO DINAMIS -->
+    <!-- LAYER 3: TEKS & LOGO DINAMIS -->
     <div class="data-container">
-      <!-- Menggunakan ID bawaan untuk update logo tim secara real-time -->
       <img id="logoTimKiri" src="assets/logo-kiri.jpg" alt="Logo Kiri" />
       <div class="teksTim" id="teksTimKiri"><p>TIM A</p></div>
-      
+
       <img id="logoTimKanan" src="assets/logo-kanan.jpeg" alt="Logo Kanan" />
       <div class="teksTim" id="teksTimKanan"><p>TIM B</p></div>
-      
+
       <div id="Caster">Adi - Udin</div>
+
+      <!-- TEXT BARU UNTUK MATCH & STAGE -->
+      <div id="MatchText">MATCH 1</div>
+      <div id="StageText">GROUP STAGE A</div>
     </div>
 
     <!-- Script Node.js -->
     <script src="/socket.io/socket.io.js"></script>
-<script>
-  const socket = io();
+    <script>
+      const socket = io();
 
-  // Elemen DOM Teks & Caster
-  const teksKiri = document.getElementById("teksTimKiri");
-  const teksKanan = document.getElementById("teksTimKanan");
-  const teksCaster = document.getElementById("Caster");
-  
-  // Elemen DOM Logo
-  const imgLogoKiri = document.getElementById("logoTimKiri");
-  const imgLogoKanan = document.getElementById("logoTimKanan");
+      // Elemen DOM Teks & Caster
+      const teksKiri = document.getElementById("teksTimKiri");
+      const teksKanan = document.getElementById("teksTimKanan");
+      const teksCaster = document.getElementById("Caster");
+      const teksMatch = document.getElementById("MatchText");
+      const teksStage = document.getElementById("StageText");
 
-  socket.on("terima_data", (data) => {
-    console.log("Data Update Diterima:", data);
+      // Elemen DOM Logo
+      const imgLogoKiri = document.getElementById("logoTimKiri");
+      const imgLogoKanan = document.getElementById("logoTimKanan");
 
-    // Update teks nama tim
-    if (data.namaTimKiri !== undefined) teksKiri.innerText = data.namaTimKiri;
-    if (data.namaTimKanan !== undefined) teksKanan.innerText = data.namaTimKanan;
+      socket.on("terima_data", (data) => {
+        console.log("Data Update Diterima:", data);
 
-    // Update source gambar logo
-    if (data.logoKiri !== undefined) imgLogoKiri.src = data.logoKiri;
-    if (data.logoKanan !== undefined) imgLogoKanan.src = data.logoKanan;
+        // Update teks nama tim
+        if (data.namaTimKiri !== undefined)
+          teksKiri.innerText = data.namaTimKiri;
+        if (data.namaTimKanan !== undefined)
+          teksKanan.innerText = data.namaTimKanan;
 
-    // LOGIKA BARU: Update teks Caster secara real-time
-    if (data.caster !== undefined) {
-        teksCaster.innerText = data.caster;
-    }
-  });
-</script>
+        // Update source gambar logo
+        if (data.logoKiri !== undefined) imgLogoKiri.src = data.logoKiri;
+        if (data.logoKanan !== undefined) imgLogoKanan.src = data.logoKanan;
+
+        // Update teks caster, match, dan stage
+        if (data.caster !== undefined) teksCaster.innerText = data.caster;
+        if (data.matchText !== undefined) teksMatch.innerText = data.matchText;
+        if (data.stageText !== undefined) teksStage.innerText = data.stageText;
+
+        if (data.poinImage !== undefined) {
+          imgPoin.src = data.poinImage;
+        }
+      });
+    </script>
   </body>
 </html>

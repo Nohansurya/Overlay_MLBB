@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Draft Pick Overlay</title>
+    <link rel="stylesheet" href="css/draft-pick.css" />
+  </head>
+  <body>
+    <!-- LAYER 1: BACKGROUND DRAFT PICK -->
+    <img
+      src="assets/Draft-Pick Overlay.png"
+      class="background-overlay"
+      alt="Background Draft Pick"
+    />
+
+    <!-- LAYER 2: SISTEM POIN DRAFT PICK -->
+    <!-- Memanggil file default 0-0(1).png dari folder poin-draft -->
+    <img
+      id="PoinGambarDraft"
+      src="assets/poin-draft/0-0(1).png"
+      class="points-overlay"
+      alt="Score Points Draft"
+    />
+
+    <!-- LAYER 3: TEKS DINAMIS -->
+    <div class="data-container">
+      <div id="MatchText">MATCH 1</div>
+      <div id="StageText">GROUP STAGE A</div>
+    </div>
+
+    <!-- Script Node.js / Socket.io -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      const teksMatch = document.getElementById("MatchText");
+      const teksStage = document.getElementById("StageText");
+      const imgPoinDraft = document.getElementById("PoinGambarDraft"); // Tangkap elemen gambar poin
+
+      socket.on("terima_data", (data) => {
+        console.log("Data Draft Pick Diterima:", data);
+
+        if (data.matchText !== undefined) teksMatch.innerText = data.matchText;
+        if (data.stageText !== undefined) teksStage.innerText = data.stageText;
+
+        // LOGIKA BARU: Manipulasi direktori gambar poin
+        if (data.poinImage !== undefined) {
+          // Mengubah 'assets/poin/' menjadi 'assets/poin-draft/'
+          const pathDraft = data.poinImage.replace(
+            "assets/poin/",
+            "assets/poin-draft/",
+          );
+          imgPoinDraft.src = pathDraft;
+        }
+      });
+    </script>
+  </body>
+</html>

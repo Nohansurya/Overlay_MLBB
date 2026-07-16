@@ -1,81 +1,184 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Admin Panel - MLBB Overlay</title>
-    <link rel="stylesheet" href="css/admin.css">
-</head>
-<body>
-
-    <div class="box-team">
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Panel Tim -->
+      <div class="box">
         <h2>Logo & Team Panel</h2>
         <label for="logo-kiri">Pilih Tim Kiri:</label>
         <select id="logo-kiri">
-            <option value="">-- Pilih Logo --</option>
+          <option value="">-- Pilih Logo --</option>
         </select>
 
         <label for="logo-kanan">Pilih Tim Kanan:</label>
         <select id="logo-kanan">
-            <option value="">-- Pilih Logo --</option>
+          <option value="">-- Pilih Logo --</option>
         </select>
-    </div>
+      </div>
 
-    <div class="box-team" style="margin-top: 20px;">
+      <!-- Panel Baru: Match Control -->
+      <div class="box">
+        <h2>Match Control</h2>
+        <label for="input-match">Keterangan Match:</label>
+        <input
+          type="text"
+          id="input-match"
+          placeholder="Contoh: Match 1 / Game 1"
+          autocomplete="off"
+        />
+
+        <label for="input-stage">Jenis Stage:</label>
+        <input
+          type="text"
+          id="input-stage"
+          placeholder="Contoh: Group Stage A"
+          autocomplete="off"
+        />
+      </div>
+
+      <!-- Panel Baru: Poin Game -->
+      <div class="box">
+        <h2>Poin Game</h2>
+        <label for="select-bo">Kategori Match (BO):</label>
+        <select id="select-bo">
+          <option value="1">Best of 1</option>
+          <option value="3">Best of 3</option>
+          <option value="5">Best of 5</option>
+          <option value="7">Best of 7</option>
+        </select>
+
+        <div class="score-container">
+          <div class="score-team">
+            <label>Poin Tim Kiri</label>
+            <div id="check-kiri" class="checkbox-group"></div>
+          </div>
+          <div class="score-team">
+            <label>Poin Tim Kanan</label>
+            <div id="check-kanan" class="checkbox-group"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel Caster -->
+      <div class="box">
         <h2>Caster Panel</h2>
         <label for="input-caster">Nama Caster:</label>
-        <input type="text" id="input-caster" placeholder="Contoh: Adi - Udin" autocomplete="off">
+        <input
+          type="text"
+          id="input-caster"
+          placeholder="Contoh: Adi - Udin"
+          autocomplete="off"
+        />
+      </div>
     </div>
 
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    const socket = io();
-    
-    const dropdowns = {
-        kiri: document.getElementById('logo-kiri'),
-        kanan: document.getElementById('logo-kanan')
-    };
-    const inputCaster = document.getElementById('input-caster');
+    <!-- Tombol Konfirmasi Update -->
+    <div class="btn-container">
+      <button id="btn-update">Kirim ke Overlay</button>
+    </div>
 
-    socket.on('daftar_logo', (daftarLogo) => {
-        Object.values(dropdowns).forEach(selectElement => {
-            selectElement.innerHTML = '<option value="">-- Pilih Logo --</option>';
-            
-            daftarLogo.forEach(namaFile => {
-                const option = document.createElement('option');
-                option.value = `/assets/LOGO TIM/${namaFile}`;
-                option.textContent = namaFile.split('.')[0];
-                selectElement.appendChild(option);
-            });
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      const dropdowns = {
+        kiri: document.getElementById("logo-kiri"),
+        kanan: document.getElementById("logo-kanan"),
+      };
+      const inputCaster = document.getElementById("input-caster");
+      const inputMatch = document.getElementById("input-match");
+      const inputStage = document.getElementById("input-stage");
+
+      // Elemen Poin Game
+      const selectBo = document.getElementById("select-bo");
+      const checkKiriContainer = document.getElementById("check-kiri");
+      const checkKananContainer = document.getElementById("check-kanan");
+      const btnUpdate = document.getElementById("btn-update");
+
+      socket.on("daftar_logo", (daftarLogo) => {
+        Object.values(dropdowns).forEach((selectElement) => {
+          selectElement.innerHTML =
+            '<option value="">-- Pilih Logo --</option>';
+          daftarLogo.forEach((namaFile) => {
+            const option = document.createElement("option");
+            option.value = `/assets/LOGO TIM/${namaFile}`;
+            option.textContent = namaFile.split(".")[0];
+            selectElement.appendChild(option);
+          });
         });
-    });
+      });
 
-    function handleLogoChange(sisi, element) {
-        element.addEventListener('change', () => {
-            const namaTimTerpilih = element.options[element.selectedIndex].text;
-            const pathLogoTerpilih = element.value;
-            const namaTim = pathLogoTerpilih ? namaTimTerpilih : "";
+      // Langkah Proses: Membuat checkbox dinamis sesuai BO
+      function renderCheckboxes() {
+        const boValue = parseInt(selectBo.value);
+        let maxPoin = 1; // Default BO1
+        if (boValue === 3) maxPoin = 2;
+        if (boValue === 5) maxPoin = 3;
+        if (boValue === 7) maxPoin = 4;
 
-            if (sisi === 'kiri') {
-                socket.emit('update_overlay', {
-                    logoKiri: pathLogoTerpilih,
-                    namaTimKiri: namaTim
-                });
-            } else if (sisi === 'kanan') {
-                socket.emit('update_overlay', {
-                    logoKanan: pathLogoTerpilih,
-                    namaTimKanan: namaTim
-                });
-            }
-        });
-    }
-    handleLogoChange('kiri', dropdowns.kiri);
-    handleLogoChange('kanan', dropdowns.kanan);
+        function buatCheck(container) {
+          container.innerHTML = ""; // Kosongkan dulu
+          for (let i = 0; i < maxPoin; i++) {
+            const cb = document.createElement("input");
+            cb.type = "checkbox";
+            cb.className = "cb-poin";
+            container.appendChild(cb);
+          }
+        }
 
-    inputCaster.addEventListener('input', () => {
-        socket.emit('update_overlay', {
-            caster: inputCaster.value
-        });
-    });
-</script>
-</body>
+        buatCheck(checkKiriContainer);
+        buatCheck(checkKananContainer);
+      }
+
+      // Panggil saat halaman dimuat dan setiap kali BO diubah
+      selectBo.addEventListener("change", renderCheckboxes);
+      renderCheckboxes();
+
+      // Fungsi klik tombol
+      btnUpdate.addEventListener("click", () => {
+        const konfirmasi = confirm(
+          "Apakah Anda yakin ingin memperbarui tampilan di layar live?",
+        );
+
+        if (konfirmasi) {
+          const timKiri = dropdowns.kiri;
+          const timKanan = dropdowns.kanan;
+          const namaTimKiri = timKiri.value
+            ? timKiri.options[timKiri.selectedIndex].text
+            : "";
+          const namaTimKanan = timKanan.value
+            ? timKanan.options[timKanan.selectedIndex].text
+            : "";
+
+          // Menghitung jumlah checkbox yang dicentang
+          const skorKiri = document.querySelectorAll(
+            "#check-kiri input:checked",
+          ).length;
+          const skorKanan = document.querySelectorAll(
+            "#check-kanan input:checked",
+          ).length;
+          const boActive = selectBo.value;
+
+          // Merangkai nama file sesuai format: Kiri-Kanan(BO).png
+          const poinFile = `assets/poin/${skorKiri}-${skorKanan}(${boActive}).png`;
+
+          socket.emit("update_overlay", {
+            logoKiri: timKiri.value,
+            namaTimKiri: namaTimKiri,
+            logoKanan: timKanan.value,
+            namaTimKanan: namaTimKanan,
+            caster: inputCaster.value,
+            matchText: inputMatch.value,
+            stageText: inputStage.value,
+            poinImage: poinFile, // Mengirim direktori file poin
+          });
+        }
+      });
+    </script>
+  </body>
 </html>

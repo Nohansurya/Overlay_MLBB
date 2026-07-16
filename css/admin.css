@@ -1,10 +1,107 @@
-body { font-family: Arial; padding: 20px; background: #2c3e50; color: white; }
-        .box { background: #34495e; padding: 20px; border-radius: 8px; width: 300px; }
-        input { width: 100%; padding: 8px; margin: 10px 0; box-sizing: border-box; }
-        button { padding: 10px 20px; background: #e74c3c; color: white; border: none; cursor: pointer; width: 100%; font-weight: bold;
-        .box-team {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-        }}
+body {
+  font-family: Arial, sans-serif;
+  padding: 30px;
+  background: #2c3e50;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  max-width: 1000px;
+}
+
+.box {
+  background: #34495e;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #7f8c8d;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+label {
+  font-size: 14px;
+  font-weight: bold;
+  display: block;
+  margin-top: 10px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: none;
+}
+
+.btn-container {
+  margin-top: 30px;
+  width: 340px;
+}
+
+button {
+  padding: 15px 20px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #c0392b;
+}
+
+/* Styling Tambahan untuk Poin Game */
+.score-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.score-team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 45%;
+}
+
+.score-team label {
+  font-size: 12px;
+  margin-bottom: 5px;
+  color: #bdc3c7;
+}
+
+.checkbox-group {
+  display: flex;
+  gap: 8px; /* Jarak antar kotak centang */
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cb-poin {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin: 0 !important; /* Mencegah margin default dari input */
+}

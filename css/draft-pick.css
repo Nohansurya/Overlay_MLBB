@@ -1,0 +1,65 @@
+@font-face {
+  font-family: "Demarus";
+  src: url("../assets/fonts/DEMARUS.otf");
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: "Demarus", sans-serif;
+  color: white;
+}
+
+.background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  z-index: 1;
+}
+
+/* Pengaturan Layar Poin Draft Pick */
+.points-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  z-index: 2; /* Muncul di atas background */
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.data-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  z-index: 3; /* Teks di layer teratas (3) */
+}
+
+#MatchText {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width: 1920px;
+  text-align: center;
+  font-size: 32px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+  margin: 0;
+}
+
+#StageText {
+  position: absolute;
+  top: 65px;
+  left: 0;
+  width: 1920px;
+  text-align: center;
+  font-size: 24px;
+  color: #ffd700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+  margin: 0;
+}
