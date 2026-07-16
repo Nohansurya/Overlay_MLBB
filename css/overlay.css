@@ -1,0 +1,84 @@
+@font-face {
+font-family: "Demarus";
+src: url("assets/fonts/DEMARUS.otf");
+}
+body {
+margin: 0;
+padding: 0;
+overflow: hidden;
+font-family: "Demarus", sans-serif;
+color: white;
+}
+
+/* Ini layer paling bawah (Aset dari Figma / After Effects) */
+.background-overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 1920px;
+height: 1080px;
+z-index: 1; /* Angka 1 berarti paling belakang */
+}
+
+/* Ini layer kontainer untuk teks agar berada di atas background */
+.data-container {
+position: absolute;
+top: 0;
+left: 0;
+width: 1920px;
+height: 1080px;
+z-index: 2; /* Angka 2 berarti di depan background */
+}
+
+/* Atur posisi teks Tim Kiri secara presisi (geser angka top & left sesuai desain Figma Anda) */
+#teksTimKiri {
+position: absolute;
+top: 61px;
+left: 611px;
+font-size: 40px;
+font-weight: regular;
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Biar teks lebih terbaca */
+}
+
+/* Atur posisi teks Tim Kanan secara presisi */
+#teksTimKanan {
+position: absolute;
+top: 61px;
+right: 660px; /* Jarak dari kanan */
+font-size: 40px;
+font-weight: regular;
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+#Caster {
+position: absolute;
+top: 175px;
+right: 180px;
+font-size: 40px;
+font-weight: regular;
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Biar teks lebih terbaca */
+}
+
+/* Pengaturan Logo Tim Kiri */
+#logoTimKiri {
+position: absolute;
+top: 12px;/* Atur jarak dari atas */
+left: 400px; /* Atur jarak dari kiri (biasanya di sebelah teks) */
+width: 100px; /* Lebar logo maksimal */
+height: 100px; /* Tinggi logo maksimal */
+object-fit: contain; /* PENTING: Agar gambar tidak peyang/distorsi */
+}
+
+/* Pengaturan Logo Tim Kanan */
+#logoTimKanan {
+position: absolute;
+top: 12px;
+right: 400px; /* Atur jarak dari kanan */
+width: 100px;
+height: 100px;
+object-fit: contain;
+}
+
+.teksTim {
+    top: 0;
+}

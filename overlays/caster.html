@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Overlay Caster</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/overlay.css">
+    <style>
+        body { 
+            background: transparent; 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+        }
+        #Caster { 
+            font-family: 'Poppins', sans-serif; 
+            font-size: 40px; 
+            font-weight: regular; 
+            color: white; 
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div id="Caster">Adi - Udin</div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      const teksCaster = document.getElementById("Caster");
+
+      socket.on("terima_data", (data) => {
+        if (data.caster !== undefined) teksCaster.innerText = data.caster;
+      });
+    </script>
+</body>
+</html>

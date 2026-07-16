@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
@@ -10,93 +10,12 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
     />
-    <style>
-      @font-face {
-        font-family: "Demarus";
-        src: url("assets/fonts/DEMARUS.otf");
-      }
-      body {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        font-family: "Demarus", sans-serif;
-        color: white;
-      }
-
-      /* Ini layer paling bawah (Aset dari Figma / After Effects) */
-      .background-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 1920px;
-        height: 1080px;
-        z-index: 1; /* Angka 1 berarti paling belakang */
-      }
-
-      /* Ini layer kontainer untuk teks agar berada di atas background */
-      .data-container {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 1920px;
-        height: 1080px;
-        z-index: 2; /* Angka 2 berarti di depan background */
-      }
-
-      /* Atur posisi teks Tim Kiri secara presisi (geser angka top & left sesuai desain Figma Anda) */
-      #teksTimKiri {
-        position: absolute;
-        top: 61px;
-        left: 611px;
-        font-size: 40px;
-        font-weight: bold;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Biar teks lebih terbaca */
-      }
-
-      /* Atur posisi teks Tim Kanan secara presisi */
-      #teksTimKanan {
-        position: absolute;
-        top: 61px;
-        right: 660px; /* Jarak dari kanan */
-        font-size: 40px;
-        font-weight: bold;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-      }
-
-      #Caster {
-        position: absolute;
-        top: 100px;
-        right: 611px;
-        font-size: 40px;
-        font-weight: bold;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Biar teks lebih terbaca */
-      }
-
-      /* Pengaturan Logo Tim Kiri */
-      #logoTimKiri {
-        position: absolute;
-        top: 49px; /* Atur jarak dari atas */
-        left: 364px; /* Atur jarak dari kiri (biasanya di sebelah teks) */
-        width: 80px; /* Lebar logo maksimal */
-        height: 80px; /* Tinggi logo maksimal */
-        object-fit: contain; /* PENTING: Agar gambar tidak peyang/distorsi */
-      }
-
-      /* Pengaturan Logo Tim Kanan */
-      #logoTimKanan {
-        position: absolute;
-        top: 49px;
-        right: 368px; /* Atur jarak dari kanan */
-        width: 80px;
-        height: 80px;
-        object-fit: contain;
-      }
-    </style>
+    <link rel="stylesheet" href="css/overlay.css" />
   </head>
   <body>
     <!-- LAYER 1: BACKGROUND (Ganti dengan <img> jika pakai .webp, atau <video> jika pakai .webm) -->
     <img
-      src="assets/In-Game Overlay.webp"
+      src="assets/In-Game Overlay.png"
       class="background-overlay"
       alt="Background"
     />
@@ -105,23 +24,48 @@
     <video src="assets/In-Game Overlay.webm" class="background-overlay" autoplay loop muted></video> 
     -->
 
-    <!-- LAYER 2: TEKS DINAMIS -->
+    <!-- LAYER 2: TEKS & LOGO DINAMIS -->
     <div class="data-container">
-      <img id="logoTimKiri" src="assets/logo-kiri.jpg" alt="" />
-      <div id="teksTimKiri">TIM A</div>
-      <img id="logoTimKanan" src="assets/logo-kanan.jpeg" alt="" />
-      <div id="teksTimKanan">TIM B</div>
+      <!-- Menggunakan ID bawaan untuk update logo tim secara real-time -->
+      <img id="logoTimKiri" src="assets/logo-kiri.jpg" alt="Logo Kiri" />
+      <div class="teksTim" id="teksTimKiri"><p>TIM A</p></div>
+      
+      <img id="logoTimKanan" src="assets/logo-kanan.jpeg" alt="Logo Kanan" />
+      <div class="teksTim" id="teksTimKanan"><p>TIM B</p></div>
+      
       <div id="Caster">Adi - Udin</div>
     </div>
 
     <!-- Script Node.js -->
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-      const socket = io();
-      socket.on("terima_data", (data) => {
-        document.getElementById("teksTimKiri").innerText = data.timKiri;
-        document.getElementById("teksTimKanan").innerText = data.timKanan;
-      });
-    </script>
+<script>
+  const socket = io();
+
+  // Elemen DOM Teks & Caster
+  const teksKiri = document.getElementById("teksTimKiri");
+  const teksKanan = document.getElementById("teksTimKanan");
+  const teksCaster = document.getElementById("Caster");
+  
+  // Elemen DOM Logo
+  const imgLogoKiri = document.getElementById("logoTimKiri");
+  const imgLogoKanan = document.getElementById("logoTimKanan");
+
+  socket.on("terima_data", (data) => {
+    console.log("Data Update Diterima:", data);
+
+    // Update teks nama tim
+    if (data.namaTimKiri !== undefined) teksKiri.innerText = data.namaTimKiri;
+    if (data.namaTimKanan !== undefined) teksKanan.innerText = data.namaTimKanan;
+
+    // Update source gambar logo
+    if (data.logoKiri !== undefined) imgLogoKiri.src = data.logoKiri;
+    if (data.logoKanan !== undefined) imgLogoKanan.src = data.logoKanan;
+
+    // LOGIKA BARU: Update teks Caster secara real-time
+    if (data.caster !== undefined) {
+        teksCaster.innerText = data.caster;
+    }
+  });
+</script>
   </body>
 </html>

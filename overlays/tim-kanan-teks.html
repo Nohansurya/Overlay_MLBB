@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Teks Tim Kanan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />
+    <style>
+        @font-face {
+        font-family: "Demarus";
+        src: url("assets/fonts/DEMARUS.otf");
+        }
+        body { background: transparent; margin: 0; padding: 0; overflow: hidden;
+        font-family: "Demarus", sans-serif; font-size: 40px; 
+            font-weight: 600; 
+            color: white; 
+            display: inline-block;}
+    </style>
+</head>
+<body>
+    <div id="teksTimKanan">TIM B</div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      const teksKanan = document.getElementById("teksTimKanan");
+
+      socket.on("terima_data", (data) => {
+        if (data.namaTimKanan !== undefined) teksKanan.innerText = data.namaTimKanan;
+      });
+    </script>
+</body>
+</html>

@@ -3,35 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Panel - MLBB Overlay</title>
-    <style>
-        body { font-family: Arial; padding: 20px; background: #2c3e50; color: white; }
-        .box { background: #34495e; padding: 20px; border-radius: 8px; width: 300px; }
-        input { width: 100%; padding: 8px; margin: 10px 0; box-sizing: border-box; }
-        button { padding: 10px 20px; background: #e74c3c; color: white; border: none; cursor: pointer; width: 100%; font-weight: bold; }
-    </style>
+    <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-    <div class="box">
-        <h2>Control Panel</h2>
-        <label>Nama Tim Kiri:</label>
-        <input type="text" id="timKiri" placeholder="Contoh: RRQ">
-        
-        <label>Nama Tim Kanan:</label>
-        <input type="text" id="timKanan" placeholder="Contoh: EVOS">
-        
-        <button onclick="kirimData()">UPDATE OVERLAY</button>
+
+    <div class="box-team">
+        <h2>Logo & Team Panel</h2>
+        <label for="logo-kiri">Pilih Tim Kiri:</label>
+        <select id="logo-kiri">
+            <option value="">-- Pilih Logo --</option>
+        </select>
+
+        <label for="logo-kanan">Pilih Tim Kanan:</label>
+        <select id="logo-kanan">
+            <option value="">-- Pilih Logo --</option>
+        </select>
     </div>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-        function kirimData() {
-            const data = {
-                timKiri: document.getElementById('timKiri').value,
-                timKanan: document.getElementById('timKanan').value
-            };
-            socket.emit('update_overlay', data);
-        }
-    </script>
+    <div class="box-team" style="margin-top: 20px;">
+        <h2>Caster Panel</h2>
+        <label for="input-caster">Nama Caster:</label>
+        <input type="text" id="input-caster" placeholder="Contoh: Adi - Udin" autocomplete="off">
+    </div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+    
+    const dropdowns = {
+        kiri: document.getElementById('logo-kiri'),
+        kanan: document.getElementById('logo-kanan')
+    };
+    const inputCaster = document.getElementById('input-caster');
+
+    socket.on('daftar_logo', (daftarLogo) => {
+        Object.values(dropdowns).forEach(selectElement => {
+            selectElement.innerHTML = '<option value="">-- Pilih Logo --</option>';
+            
+            daftarLogo.forEach(namaFile => {
+                const option = document.createElement('option');
+                option.value = `/assets/LOGO TIM/${namaFile}`;
+                option.textContent = namaFile.split('.')[0];
+                selectElement.appendChild(option);
+            });
+        });
+    });
+
+    function handleLogoChange(sisi, element) {
+        element.addEventListener('change', () => {
+            const namaTimTerpilih = element.options[element.selectedIndex].text;
+            const pathLogoTerpilih = element.value;
+            const namaTim = pathLogoTerpilih ? namaTimTerpilih : "";
+
+            if (sisi === 'kiri') {
+                socket.emit('update_overlay', {
+                    logoKiri: pathLogoTerpilih,
+                    namaTimKiri: namaTim
+                });
+            } else if (sisi === 'kanan') {
+                socket.emit('update_overlay', {
+                    logoKanan: pathLogoTerpilih,
+                    namaTimKanan: namaTim
+                });
+            }
+        });
+    }
+    handleLogoChange('kiri', dropdowns.kiri);
+    handleLogoChange('kanan', dropdowns.kanan);
+
+    inputCaster.addEventListener('input', () => {
+        socket.emit('update_overlay', {
+            caster: inputCaster.value
+        });
+    });
+</script>
 </body>
 </html>

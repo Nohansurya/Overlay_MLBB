@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @font-face {
+        font-family: "Demarus";
+        src: url("assets/fonts/DEMARUS.otf");
+        }
+        body { background: transparent; margin: 0; padding: 0; overflow: hidden;
+        font-family: "Demarus", sans-serif; font-size: 40px; 
+            font-weight: 600; 
+            color: white; 
+            display: inline-block;}
+    </style>
+</head>
+<body>
+    <img id="logoTimKiri" src="/assets/logo-kiri.jpg" alt="Logo Kiri" />
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      const imgLogoKiri = document.getElementById("logoTimKiri");
+
+      socket.on("terima_data", (data) => {
+        if (data.logoKiri !== undefined) imgLogoKiri.src = data.logoKiri;
+      });
+    </script>
+</body>
+</html>
