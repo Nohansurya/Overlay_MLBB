@@ -2,20 +2,41 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <title>Logo Tim Kiri</title>
     <style>
-        @font-face {
-        font-family: "Demarus";
-        src: url("assets/fonts/DEMARUS.otf");
+        html, body { 
+            background: transparent; 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            /* Memaksa halaman membungkus area konten saja agar pas di OBS */
+            width: max-content;
+            height: max-content;
         }
-        body { background: transparent; margin: 0; padding: 0; overflow: hidden;
-        font-family: "Demarus", sans-serif; font-size: 40px; 
-            font-weight: 600; 
-            color: white; 
-            display: inline-block;}
+
+        /* Kandang pembatas otomatis untuk ukuran logo */
+        .logo-box {
+            width: 100px;  
+            height: 100px; 
+            display: flex;
+            align-items: center;     
+            justify-content: center; 
+        }
+
+        .logo-box img { 
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Menjaga logo agar TIDAK gepeng */
+            display: block;
+        }
     </style>
 </head>
 <body>
-    <img id="logoTimKiri" src="/assets/logo-kiri.jpg" alt="Logo Kiri" />
+
+    <!-- Membungkus logo dengan kontainer box yang aman -->
+    <div class="logo-box">
+        <img id="logoTimKiri" src="/assets/logo-kiri.jpg" alt="Logo Kiri" />
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>

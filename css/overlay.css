@@ -44,7 +44,7 @@ text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Biar teks lebih terbaca */
 #teksTimKanan {
 position: absolute;
 top: 61px;
-right: 660px; /* Jarak dari kanan */
+right: 606px; /* Jarak dari kanan */
 font-size: 40px;
 font-weight: regular;
 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
@@ -52,11 +52,12 @@ text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 
 #Caster {
 position: absolute;
-top: 175px;
-right: 180px;
+top: 174px;
+right: 80px;
 font-size: 40px;
-font-weight: regular;
-text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Biar teks lebih terbaca */
+text-align: center;
+width: 300px;
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); 
 }
 
 /* Pengaturan Logo Tim Kiri */
