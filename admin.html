@@ -75,6 +75,43 @@
           autocomplete="off"
         />
       </div>
+
+      <!-- Panel Baru: Pre-Match Countdown -->
+      <div class="box">
+        <h2>Countdown Pre-Match</h2>
+        <div style="display: flex; gap: 10px; margin-bottom: 10px">
+          <div style="width: 50%">
+            <label for="input-menit">Menit:</label>
+            <input
+              type="number"
+              id="input-menit"
+              placeholder="0"
+              value="5"
+              min="0"
+            />
+          </div>
+          <div style="width: 50%">
+            <label for="input-detik">Detik:</label>
+            <input
+              type="number"
+              id="input-detik"
+              placeholder="0"
+              value="0"
+              min="0"
+              max="59"
+            />
+          </div>
+        </div>
+        <button
+          id="btn-start-timer"
+          style="background: #2ecc71; margin-bottom: 5px"
+        >
+          Mulai Countdown
+        </button>
+        <button id="btn-stop-timer" style="background: #e67e22">
+          Stop / Reset
+        </button>
+      </div>
     </div>
 
     <!-- Tombol Konfirmasi Update -->
@@ -166,6 +203,36 @@
 
           // Merangkai nama file sesuai format: Kiri-Kanan(BO).png
           const poinFile = `assets/poin/${skorKiri}-${skorKanan}(${boActive}).png`;
+
+          // --- ELEMEN COUNTDOWN PRE-MATCH ---
+          const inputMenit = document.getElementById("input-menit");
+          const inputDetik = document.getElementById("input-detik");
+          const btnStartTimer = document.getElementById("btn-start-timer");
+          const btnStopTimer = document.getElementById("btn-stop-timer");
+
+          // Tombol Mulai Countdown
+          btnStartTimer.addEventListener("click", () => {
+            const menit = parseInt(inputMenit.value) || 0;
+            const detik = parseInt(inputDetik.value) || 0;
+
+            // Mengubah menit dan detik menjadi total milidetik
+            const totalMs = (menit * 60 + detik) * 1000;
+
+            // Menentukan waktu target selesai
+            const targetTime = Date.now() + totalMs;
+
+            socket.emit("update_overlay", {
+              targetWaktu: targetTime,
+              isTimerActive: true,
+            });
+          });
+
+          // Tombol Stop / Reset Countdown
+          btnStopTimer.addEventListener("click", () => {
+            socket.emit("update_overlay", {
+              isTimerActive: false,
+            });
+          });
 
           socket.emit("update_overlay", {
             logoKiri: timKiri.value,

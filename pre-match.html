@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pre-Match Overlay</title>
+    <link rel="stylesheet" href="css/pre-match.css" />
+  </head>
+  <body>
+    <!-- LAYER 1: BACKGROUND -->
+    <!-- Pastikan Anda memiliki gambar ini di folder assets -->
+    <img
+      src="assets/Pre-Match Overlay.png"
+      class="background-overlay"
+      alt="Background Pre-Match"
+    />
+
+    <!-- LAYER 2: TEKS & COUNTDOWN -->
+    <div class="data-container">
+      <div id="MatchText">MATCH 1</div>
+      <div id="StageText">GROUP STAGE A</div>
+
+      <!-- ELEMEN COUNTDOWN -->
+      <div id="CountdownText">00:00:00</div>
+    </div>
+
+    <!-- Script Node.js / Socket.io -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      const teksMatch = document.getElementById("MatchText");
+      const teksStage = document.getElementById("StageText");
+      const teksCountdown = document.getElementById("CountdownText");
+
+      let timerInterval;
+
+      socket.on("terima_data", (data) => {
+        console.log("Data Pre-Match Diterima:", data);
+
+        // Mengambil teks Match dan Stage (sinkron dengan layer lain)
+        if (data.matchText !== undefined) teksMatch.innerText = data.matchText;
+        if (data.stageText !== undefined) teksStage.innerText = data.stageText;
+
+        // LOGIKA COUNTDOWN
+        if (data.isTimerActive === true && data.targetWaktu !== undefined) {
+          // Bersihkan interval yang lama agar tidak menumpuk/berkedip
+          clearInterval(timerInterval);
+
+          // Mulai perulangan setiap 1 detik (1000 milidetik)
+          timerInterval = setInterval(() => {
+            const now = Date.now();
+            const distance = data.targetWaktu - now;
+
+            // Jika waktu habis, hentikan hitung mundur
+            if (distance < 0) {
+              clearInterval(timerInterval);
+              teksCountdown.innerText = "00:00:00";
+              return;
+            }
+
+            // Kalkulasi Jam, Menit, dan Detik
+            const hours = Math.floor(
+              (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+            );
+            const minutes = Math.floor(
+              (distance % (1000 * 60 * 60)) / (1000 * 60),
+            );
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Format penulisan agar selalu 2 digit (contoh: 05, 09, 12)
+            const formattedTime =
+              String(hours).padStart(2, "0") +
+              ":" +
+              String(minutes).padStart(2, "0") +
+              ":" +
+              String(seconds).padStart(2, "0");
+
+            teksCountdown.innerText = formattedTime;
+          }, 1000);
+        } else if (data.isTimerActive === false) {
+          // Jika tombol Stop/Reset di admin ditekan
+          clearInterval(timerInterval);
+          teksCountdown.innerText = "00:00:00";
+        }
+      });
+    </script>
+  </body>
+</html>

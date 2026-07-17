@@ -1,0 +1,67 @@
+@font-face {
+  font-family: "Demarus";
+  src: url("../assets/fonts/DEMARUS.otf");
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: "Demarus", sans-serif;
+  color: white;
+}
+
+.background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  z-index: 1;
+}
+
+.data-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1920px;
+  height: 1080px;
+  z-index: 2;
+}
+
+#MatchText {
+  position: absolute;
+  top: 79px;
+  right: 328px;
+  font-family: "Poppins", sans-serif;
+  font-size: 104px;
+  font-weight: 900;
+  text-align: center;
+  width: 900px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+#StageText {
+  position: absolute;
+  top: 36px;
+  right: 641px;
+  font-size: 64px;
+  text-align: center;
+  width: 394px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+/* Pengaturan Teks Jam Countdown */
+#CountdownText {
+  position: absolute;
+  top: 44px;
+  left: -447px;
+  width: 1920px;
+  text-align: center;
+  font-size: 150px;
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+  letter-spacing: 5px;
+  text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.9);
+  margin: 0;
+}
