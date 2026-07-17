@@ -21,6 +21,11 @@
 
       <!-- ELEMEN COUNTDOWN -->
       <div id="CountdownText">00:00:00</div>
+
+      <!-- ELEMEN BARU: JADWAL PERTANDINGAN -->
+      <div id="ScheduleContainer">
+        <!-- Struktur akan dihasilkan oleh JavaScript -->
+      </div>
     </div>
 
     <!-- Script Node.js / Socket.io -->
@@ -81,6 +86,31 @@
           // Jika tombol Stop/Reset di admin ditekan
           clearInterval(timerInterval);
           teksCountdown.innerText = "00:00:00";
+        }
+        // LOGIKA BARU: JADWAL PRE-MATCH
+        if (data.prematchSchedule !== undefined) {
+          const container = document.getElementById("ScheduleContainer");
+          container.innerHTML = "";
+
+          data.prematchSchedule.forEach((match, index) => {
+            // Tambahkan class sc-logo-kiri dan sc-logo-kanan
+            const imgKiri = match.logoKiri
+              ? `<img src="${match.logoKiri}" class="sc-logo sc-logo-kiri">`
+              : `<div class="sc-logo-placeholder sc-logo-kiri"></div>`;
+            const imgKanan = match.logoKanan
+              ? `<img src="${match.logoKanan}" class="sc-logo sc-logo-kanan">`
+              : `<div class="sc-logo-placeholder sc-logo-kanan"></div>`;
+
+            container.innerHTML += `
+                    <div class="schedule-row" id="row-${index + 1}">
+                        ${imgKiri}
+                        <div class="sc-score sc-score-kiri">${match.scoreKiri}</div>
+                        <div class="sc-score sc-score-kanan">${match.scoreKanan}</div>
+                        ${imgKanan}
+                        <div class="sc-bo">${match.bo}</div>
+                    </div>
+                `;
+          });
         }
       });
     </script>

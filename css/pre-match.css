@@ -65,3 +65,89 @@ body {
   text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.9);
   margin: 0;
 }
+
+/* Pengaturan Kontainer Jadwal Pre-Match */
+#ScheduleContainer {
+  position: absolute;
+  top: 467px; /* Posisi tabel secara keseluruhan dari atas layar */
+  left: 19%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 93px; /* Jarak dari Match 1 ke Match 2, Match 2 ke Match 3 */
+  width: 857px; /* Lebar area jadwal, perlebar jika jarak logo terlalu sempit */
+}
+
+/* Ubah row menjadi relative agar isi di dalamnya bisa absolute */
+.schedule-row {
+  position: relative;
+  width: 100%;
+  height: 80px; /* Harus diberi tinggi pasti karena isinya melayang (absolute) */
+}
+
+/* --- BASE STYLING (Ukuran & Font) --- */
+.sc-logo,
+.sc-logo-placeholder {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  position: absolute; /* Membuatnya melayang */
+}
+
+.sc-score {
+  font-size: 90px;
+  font-weight: bold;
+  position: absolute; /* Membuatnya melayang */
+}
+
+.sc-bo {
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  position: absolute; /* Membuatnya melayang */
+}
+
+/* =========================================
+   PENGATURAN POSISI (Silakan ubah angka ini) 
+   ========================================= */
+
+.sc-logo-kiri {
+  top: 5px; /* Geser logo kiri naik/turun */
+  left: 150px; /* Geser logo kiri ke kanan/kiri */
+}
+
+.sc-score-kiri {
+  top: 3px;
+  left: 319px; /* Posisikan teks skor kiri di sebelah logo kiri */
+}
+
+.sc-bo {
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%); /* Terkunci tepat di tengah layar */
+}
+
+.sc-score-kanan {
+  top: 3px;
+  right: 314px; /* Posisikan teks skor kanan di sebelah logo kanan */
+}
+
+.sc-logo-kanan {
+  top: 5px;
+  right: 150px; /* Geser logo kanan ke kanan/kiri */
+}
+
+/* Posisi khusus teks BO di Match 1 */
+#row-1 .sc-bo {
+  top: -19px;
+}
+
+/* Posisi khusus teks BO di Match 2 */
+#row-2 .sc-bo {
+  top: -19px; /* Misalnya di Match 2 butuh lebih turun sedikit */
+}
+
+/* Posisi khusus teks BO di Match 3 */
+#row-3 .sc-bo {
+  top: -19px;
+}

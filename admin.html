@@ -112,6 +112,112 @@
           Stop / Reset
         </button>
       </div>
+
+      <!-- Panel Baru: Jadwal Pre-Match (3 Match) -->
+      <div class="box schedule-box-main">
+        <h2>Jadwal & Hasil Pertandingan (Pre-Match)</h2>
+        <div class="schedule-flex">
+          <!-- Match 1 -->
+          <div class="schedule-item">
+            <h3>Match 1</h3>
+            <select id="pm-logo-kiri-1">
+              <option value="">-- Logo Tim Kiri --</option>
+            </select>
+            <input
+              type="number"
+              id="pm-score-kiri-1"
+              placeholder="Score Kiri"
+              value="0"
+              min="0"
+            />
+            <select id="pm-logo-kanan-1">
+              <option value="">-- Logo Tim Kanan --</option>
+            </select>
+            <input
+              type="number"
+              id="pm-score-kanan-1"
+              placeholder="Score Kanan"
+              value="0"
+              min="0"
+            />
+            <select id="pm-bo-1">
+              <option value="BO1">Best of 1</option>
+              <option value="BO3">Best of 3</option>
+              <option value="BO5">Best of 5</option>
+              <option value="BO7">Best of 7</option>
+            </select>
+          </div>
+
+          <!-- Match 2 -->
+          <div class="schedule-item">
+            <h3>Match 2</h3>
+            <select id="pm-logo-kiri-2">
+              <option value="">-- Logo Tim Kiri --</option>
+            </select>
+            <input
+              type="number"
+              id="pm-score-kiri-2"
+              placeholder="Score Kiri"
+              value="0"
+              min="0"
+            />
+            <select id="pm-logo-kanan-2">
+              <option value="">-- Logo Tim Kanan --</option>
+            </select>
+            <input
+              type="number"
+              id="pm-score-kanan-2"
+              placeholder="Score Kanan"
+              value="0"
+              min="0"
+            />
+            <select id="pm-bo-2">
+              <option value="BO1">Best of 1</option>
+              <option value="BO3">Best of 3</option>
+              <option value="BO5">Best of 5</option>
+              <option value="BO7">Best of 7</option>
+            </select>
+          </div>
+
+          <!-- Match 3 -->
+          <div class="schedule-item">
+            <h3>Match 3</h3>
+            <select id="pm-logo-kiri-3">
+              <option value="">-- Logo Tim Kiri --</option>
+            </select>
+            <input
+              type="number"
+              id="pm-score-kiri-3"
+              placeholder="Score Kiri"
+              value="0"
+              min="0"
+            />
+            <select id="pm-logo-kanan-3">
+              <option value="">-- Logo Tim Kanan --</option>
+            </select>
+            <input
+              type="number"
+              id="pm-score-kanan-3"
+              placeholder="Score Kanan"
+              value="0"
+              min="0"
+            />
+            <select id="pm-bo-3">
+              <option value="BO1">Best of 1</option>
+              <option value="BO3">Best of 3</option>
+              <option value="BO5">Best of 5</option>
+              <option value="BO7">Best of 7</option>
+            </select>
+          </div>
+        </div>
+        <button
+          id="btn-update-schedule"
+          class="btn-start"
+          style="margin-top: 15px; background: #3498db"
+        >
+          Kirim Jadwal ke Layar Pre-Match
+        </button>
+      </div>
     </div>
 
     <!-- Tombol Konfirmasi Update -->
@@ -126,6 +232,12 @@
       const dropdowns = {
         kiri: document.getElementById("logo-kiri"),
         kanan: document.getElementById("logo-kanan"),
+        pmKiri1: document.getElementById("pm-logo-kiri-1"),
+        pmKanan1: document.getElementById("pm-logo-kanan-1"),
+        pmKiri2: document.getElementById("pm-logo-kiri-2"),
+        pmKanan2: document.getElementById("pm-logo-kanan-2"),
+        pmKiri3: document.getElementById("pm-logo-kiri-3"),
+        pmKanan3: document.getElementById("pm-logo-kanan-3"),
       };
       const inputCaster = document.getElementById("input-caster");
       const inputMatch = document.getElementById("input-match");
@@ -247,6 +359,26 @@
           });
         }
       });
+
+      document
+        .getElementById("btn-update-schedule")
+        .addEventListener("click", () => {
+          const matches = [];
+          for (let i = 1; i <= 3; i++) {
+            matches.push({
+              logoKiri: document.getElementById(`pm-logo-kiri-${i}`).value,
+              scoreKiri: document.getElementById(`pm-score-kiri-${i}`).value,
+              logoKanan: document.getElementById(`pm-logo-kanan-${i}`).value,
+              scoreKanan: document.getElementById(`pm-score-kanan-${i}`).value,
+              bo: document.getElementById(`pm-bo-${i}`).value,
+            });
+          }
+
+          socket.emit("update_overlay", {
+            prematchSchedule: matches,
+          });
+          alert("Jadwal Pre-Match berhasil diperbarui!");
+        });
     </script>
   </body>
 </html>

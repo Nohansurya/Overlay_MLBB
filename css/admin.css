@@ -105,3 +105,31 @@ button:hover {
   cursor: pointer;
   margin: 0 !important; /* Mencegah margin default dari input */
 }
+
+/* Styling Jadwal Pre-Match */
+.schedule-box-main {
+  width: 100%;
+  max-width: 940px;
+}
+.schedule-flex {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+.schedule-item {
+  background: #2c3e50;
+  padding: 15px;
+  border-radius: 6px;
+  width: 30%;
+}
+.schedule-item h3 {
+  margin-top: 0;
+  text-align: center;
+  font-size: 16px;
+  color: #f1c40f;
+  border-bottom: 1px solid #7f8c8d;
+  padding-bottom: 5px;
+}
+.schedule-item input {
+  text-align: center;
+}
