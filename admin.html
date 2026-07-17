@@ -322,30 +322,6 @@
           const btnStartTimer = document.getElementById("btn-start-timer");
           const btnStopTimer = document.getElementById("btn-stop-timer");
 
-          // Tombol Mulai Countdown
-          btnStartTimer.addEventListener("click", () => {
-            const menit = parseInt(inputMenit.value) || 0;
-            const detik = parseInt(inputDetik.value) || 0;
-
-            // Mengubah menit dan detik menjadi total milidetik
-            const totalMs = (menit * 60 + detik) * 1000;
-
-            // Menentukan waktu target selesai
-            const targetTime = Date.now() + totalMs;
-
-            socket.emit("update_overlay", {
-              targetWaktu: targetTime,
-              isTimerActive: true,
-            });
-          });
-
-          // Tombol Stop / Reset Countdown
-          btnStopTimer.addEventListener("click", () => {
-            socket.emit("update_overlay", {
-              isTimerActive: false,
-            });
-          });
-
           socket.emit("update_overlay", {
             logoKiri: timKiri.value,
             namaTimKiri: namaTimKiri,
@@ -358,6 +334,30 @@
             boValue: boActive, // MENGIRIMKAN DATA BO UNTUK BACKGROUND
           });
         }
+      });
+
+      // Tombol Mulai Countdown
+      btnStartTimer.addEventListener("click", () => {
+        const menit = parseInt(inputMenit.value) || 0;
+        const detik = parseInt(inputDetik.value) || 0;
+
+        // Mengubah menit dan detik menjadi total milidetik
+        const totalMs = (menit * 60 + detik) * 1000;
+
+        // Menentukan waktu target selesai
+        const targetTime = Date.now() + totalMs;
+
+        socket.emit("update_overlay", {
+          targetWaktu: targetTime,
+          isTimerActive: true,
+        });
+      });
+
+      // Tombol Stop / Reset Countdown
+      btnStopTimer.addEventListener("click", () => {
+        socket.emit("update_overlay", {
+          isTimerActive: false,
+        });
       });
 
       document
