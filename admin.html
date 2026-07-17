@@ -6,81 +6,97 @@
     <link rel="stylesheet" href="css/admin.css" />
   </head>
   <body>
-    <div class="container">
-      <!-- Panel Tim -->
-      <div class="box">
-        <h2>Logo & Team Panel</h2>
-        <label for="logo-kiri">Pilih Tim Kiri:</label>
-        <select id="logo-kiri">
-          <option value="">-- Pilih Logo --</option>
-        </select>
+    <div class="dashboard-wrapper">
+      <h1 class="page-title">MLBB OVERLAY CONTROL PANEL</h1>
 
-        <label for="logo-kanan">Pilih Tim Kanan:</label>
-        <select id="logo-kanan">
-          <option value="">-- Pilih Logo --</option>
-        </select>
-      </div>
+      <!-- ==========================================
+           SECTION 1: OVERLAY UTAMA (IN-GAME & DRAFT)
+           ========================================== -->
+      <div class="section-block">
+        <h2 class="section-header">1. Kontrol Overlay Utama</h2>
 
-      <!-- Panel Baru: Match Control -->
-      <div class="box">
-        <h2>Match Control</h2>
-        <label for="input-match">Keterangan Match:</label>
-        <input
-          type="text"
-          id="input-match"
-          placeholder="Contoh: Match 1 / Game 1"
-          autocomplete="off"
-        />
-
-        <label for="input-stage">Jenis Stage:</label>
-        <input
-          type="text"
-          id="input-stage"
-          placeholder="Contoh: Group Stage A"
-          autocomplete="off"
-        />
-      </div>
-
-      <!-- Panel Baru: Poin Game -->
-      <div class="box">
-        <h2>Poin Game</h2>
-        <label for="select-bo">Kategori Match (BO):</label>
-        <select id="select-bo">
-          <option value="1">Best of 1</option>
-          <option value="3">Best of 3</option>
-          <option value="5">Best of 5</option>
-          <option value="7">Best of 7</option>
-        </select>
-
-        <div class="score-container">
-          <div class="score-team">
-            <label>Poin Tim Kiri</label>
-            <div id="check-kiri" class="checkbox-group"></div>
+        <div class="grid-4">
+          <!-- Panel Tim -->
+          <div class="box">
+            <h2>Logo & Team Panel</h2>
+            <label for="logo-kiri">Pilih Tim Kiri:</label>
+            <select id="logo-kiri">
+              <option value="">-- Pilih Logo --</option>
+            </select>
+            <label for="logo-kanan">Pilih Tim Kanan:</label>
+            <select id="logo-kanan">
+              <option value="">-- Pilih Logo --</option>
+            </select>
           </div>
-          <div class="score-team">
-            <label>Poin Tim Kanan</label>
-            <div id="check-kanan" class="checkbox-group"></div>
+
+          <!-- Panel Match Control -->
+          <div class="box">
+            <h2>Match Control</h2>
+            <label for="input-match">Keterangan Match:</label>
+            <input
+              type="text"
+              id="input-match"
+              placeholder="Contoh: Match 1 / Game 1"
+              autocomplete="off"
+            />
+            <label for="input-stage">Jenis Stage:</label>
+            <input
+              type="text"
+              id="input-stage"
+              placeholder="Contoh: Group Stage A"
+              autocomplete="off"
+            />
+          </div>
+
+          <!-- Panel Poin Game -->
+          <div class="box">
+            <h2>Poin Game</h2>
+            <label for="select-bo">Kategori Match (BO):</label>
+            <select id="select-bo">
+              <option value="1">Best of 1</option>
+              <option value="3">Best of 3</option>
+              <option value="5">Best of 5</option>
+              <option value="7">Best of 7</option>
+            </select>
+            <div class="score-container">
+              <div class="score-team">
+                <label>Poin Tim Kiri</label>
+                <div id="check-kiri" class="checkbox-group"></div>
+              </div>
+              <div class="score-team">
+                <label>Poin Tim Kanan</label>
+                <div id="check-kanan" class="checkbox-group"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel Caster -->
+          <div class="box">
+            <h2>Caster Panel</h2>
+            <label for="input-caster">Nama Caster:</label>
+            <input
+              type="text"
+              id="input-caster"
+              placeholder="Contoh: Adi - Udin"
+              autocomplete="off"
+            />
           </div>
         </div>
+
+        <!-- Tombol Update Khusus Section Utama -->
+        <button id="btn-update" class="btn-main-update">
+          KIRIM KE OVERLAY UTAMA
+        </button>
       </div>
 
-      <!-- Panel Caster -->
-      <div class="box">
-        <h2>Caster Panel</h2>
-        <label for="input-caster">Nama Caster:</label>
-        <input
-          type="text"
-          id="input-caster"
-          placeholder="Contoh: Adi - Udin"
-          autocomplete="off"
-        />
-      </div>
+      <!-- ==========================================
+           SECTION 2: PRE-MATCH COUNTDOWN
+           ========================================== -->
+      <div class="section-block">
+        <h2 class="section-header">2. Kontrol Countdown Pre-Match</h2>
 
-      <!-- Panel Baru: Pre-Match Countdown -->
-      <div class="box">
-        <h2>Countdown Pre-Match</h2>
-        <div style="display: flex; gap: 10px; margin-bottom: 10px">
-          <div style="width: 50%">
+        <div class="box flex-row-center">
+          <div class="input-group-inline">
             <label for="input-menit">Menit:</label>
             <input
               type="number"
@@ -90,7 +106,7 @@
               min="0"
             />
           </div>
-          <div style="width: 50%">
+          <div class="input-group-inline">
             <label for="input-detik">Detik:</label>
             <input
               type="number"
@@ -101,24 +117,26 @@
               max="59"
             />
           </div>
+          <div class="btn-group-inline">
+            <button id="btn-start-timer" class="btn-start">
+              MULAI COUNTDOWN
+            </button>
+            <button id="btn-stop-timer" class="btn-stop">STOP / RESET</button>
+          </div>
         </div>
-        <button
-          id="btn-start-timer"
-          style="background: #2ecc71; margin-bottom: 5px"
-        >
-          Mulai Countdown
-        </button>
-        <button id="btn-stop-timer" style="background: #e67e22">
-          Stop / Reset
-        </button>
       </div>
 
-      <!-- Panel Baru: Jadwal Pre-Match (3 Match) -->
-      <div class="box schedule-box-main">
-        <h2>Jadwal & Hasil Pertandingan (Pre-Match)</h2>
+      <!-- ==========================================
+           SECTION 3: PRE-MATCH SCHEDULE
+           ========================================== -->
+      <div class="section-block">
+        <h2 class="section-header">
+          3. Jadwal & Hasil Pertandingan (Pre-Match)
+        </h2>
+
         <div class="schedule-flex">
           <!-- Match 1 -->
-          <div class="schedule-item">
+          <div class="schedule-item box">
             <h3>Match 1</h3>
             <select id="pm-logo-kiri-1">
               <option value="">-- Logo Tim Kiri --</option>
@@ -149,7 +167,7 @@
           </div>
 
           <!-- Match 2 -->
-          <div class="schedule-item">
+          <div class="schedule-item box">
             <h3>Match 2</h3>
             <select id="pm-logo-kiri-2">
               <option value="">-- Logo Tim Kiri --</option>
@@ -180,7 +198,7 @@
           </div>
 
           <!-- Match 3 -->
-          <div class="schedule-item">
+          <div class="schedule-item box">
             <h3>Match 3</h3>
             <select id="pm-logo-kiri-3">
               <option value="">-- Logo Tim Kiri --</option>
@@ -210,21 +228,14 @@
             </select>
           </div>
         </div>
-        <button
-          id="btn-update-schedule"
-          class="btn-start"
-          style="margin-top: 15px; background: #3498db"
-        >
-          Kirim Jadwal ke Layar Pre-Match
+
+        <button id="btn-update-schedule" class="btn-schedule-update">
+          KIRIM JADWAL KE LAYAR PRE-MATCH
         </button>
       </div>
     </div>
 
-    <!-- Tombol Konfirmasi Update -->
-    <div class="btn-container">
-      <button id="btn-update">Kirim ke Overlay</button>
-    </div>
-
+    <!-- Script Node.js -->
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io();
@@ -239,11 +250,10 @@
         pmKiri3: document.getElementById("pm-logo-kiri-3"),
         pmKanan3: document.getElementById("pm-logo-kanan-3"),
       };
+
       const inputCaster = document.getElementById("input-caster");
       const inputMatch = document.getElementById("input-match");
       const inputStage = document.getElementById("input-stage");
-
-      // Elemen Poin Game
       const selectBo = document.getElementById("select-bo");
       const checkKiriContainer = document.getElementById("check-kiri");
       const checkKananContainer = document.getElementById("check-kanan");
@@ -262,16 +272,15 @@
         });
       });
 
-      // Langkah Proses: Membuat checkbox dinamis sesuai BO
       function renderCheckboxes() {
         const boValue = parseInt(selectBo.value);
-        let maxPoin = 1; // Default BO1
+        let maxPoin = 1;
         if (boValue === 3) maxPoin = 2;
         if (boValue === 5) maxPoin = 3;
         if (boValue === 7) maxPoin = 4;
 
         function buatCheck(container) {
-          container.innerHTML = ""; // Kosongkan dulu
+          container.innerHTML = "";
           for (let i = 0; i < maxPoin; i++) {
             const cb = document.createElement("input");
             cb.type = "checkbox";
@@ -279,72 +288,58 @@
             container.appendChild(cb);
           }
         }
-
         buatCheck(checkKiriContainer);
         buatCheck(checkKananContainer);
       }
 
-      // Panggil saat halaman dimuat dan setiap kali BO diubah
       selectBo.addEventListener("change", renderCheckboxes);
       renderCheckboxes();
 
-      // Fungsi klik tombol
+      // FUNGSI 1: KIRIM OVERLAY UTAMA
       btnUpdate.addEventListener("click", () => {
-        const konfirmasi = confirm(
-          "Apakah Anda yakin ingin memperbarui tampilan di layar live?",
-        );
+        const timKiri = dropdowns.kiri;
+        const timKanan = dropdowns.kanan;
+        const namaTimKiri = timKiri.value
+          ? timKiri.options[timKiri.selectedIndex].text
+          : "";
+        const namaTimKanan = timKanan.value
+          ? timKanan.options[timKanan.selectedIndex].text
+          : "";
 
-        if (konfirmasi) {
-          const timKiri = dropdowns.kiri;
-          const timKanan = dropdowns.kanan;
-          const namaTimKiri = timKiri.value
-            ? timKiri.options[timKiri.selectedIndex].text
-            : "";
-          const namaTimKanan = timKanan.value
-            ? timKanan.options[timKanan.selectedIndex].text
-            : "";
+        const skorKiri = document.querySelectorAll(
+          "#check-kiri input:checked",
+        ).length;
+        const skorKanan = document.querySelectorAll(
+          "#check-kanan input:checked",
+        ).length;
+        const boActive = selectBo.value;
+        const poinFile = `assets/poin/${skorKiri}-${skorKanan}(${boActive}).png`;
 
-          // Menghitung jumlah checkbox yang dicentang
-          const skorKiri = document.querySelectorAll(
-            "#check-kiri input:checked",
-          ).length;
-          const skorKanan = document.querySelectorAll(
-            "#check-kanan input:checked",
-          ).length;
-          const boActive = selectBo.value;
+        socket.emit("update_overlay", {
+          logoKiri: timKiri.value,
+          namaTimKiri: namaTimKiri,
+          logoKanan: timKanan.value,
+          namaTimKanan: namaTimKanan,
+          caster: inputCaster.value,
+          matchText: inputMatch.value,
+          stageText: inputStage.value,
+          poinImage: poinFile,
+          boValue: boActive,
+        });
 
-          // Merangkai nama file sesuai format: Kiri-Kanan(BO).png
-          const poinFile = `assets/poin/${skorKiri}-${skorKanan}(${boActive}).png`;
-
-          // --- ELEMEN COUNTDOWN PRE-MATCH ---
-          const inputMenit = document.getElementById("input-menit");
-          const inputDetik = document.getElementById("input-detik");
-          const btnStartTimer = document.getElementById("btn-start-timer");
-          const btnStopTimer = document.getElementById("btn-stop-timer");
-
-          socket.emit("update_overlay", {
-            logoKiri: timKiri.value,
-            namaTimKiri: namaTimKiri,
-            logoKanan: timKanan.value,
-            namaTimKanan: namaTimKanan,
-            caster: inputCaster.value,
-            matchText: inputMatch.value,
-            stageText: inputStage.value,
-            poinImage: poinFile,
-            boValue: boActive, // MENGIRIMKAN DATA BO UNTUK BACKGROUND
-          });
-        }
+        alert("Data Overlay Utama (In-Game & Draft) berhasil dikirim!");
       });
 
-      // Tombol Mulai Countdown
+      // FUNGSI 2: COUNTDOWN
+      const inputMenit = document.getElementById("input-menit");
+      const inputDetik = document.getElementById("input-detik");
+      const btnStartTimer = document.getElementById("btn-start-timer");
+      const btnStopTimer = document.getElementById("btn-stop-timer");
+
       btnStartTimer.addEventListener("click", () => {
         const menit = parseInt(inputMenit.value) || 0;
         const detik = parseInt(inputDetik.value) || 0;
-
-        // Mengubah menit dan detik menjadi total milidetik
         const totalMs = (menit * 60 + detik) * 1000;
-
-        // Menentukan waktu target selesai
         const targetTime = Date.now() + totalMs;
 
         socket.emit("update_overlay", {
@@ -353,13 +348,13 @@
         });
       });
 
-      // Tombol Stop / Reset Countdown
       btnStopTimer.addEventListener("click", () => {
         socket.emit("update_overlay", {
           isTimerActive: false,
         });
       });
 
+      // FUNGSI 3: SCHEDULE PRE-MATCH
       document
         .getElementById("btn-update-schedule")
         .addEventListener("click", () => {
@@ -377,7 +372,8 @@
           socket.emit("update_overlay", {
             prematchSchedule: matches,
           });
-          alert("Jadwal Pre-Match berhasil diperbarui!");
+
+          alert("Jadwal Pre-Match berhasil dikirim!");
         });
     </script>
   </body>
