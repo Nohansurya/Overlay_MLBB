@@ -43,23 +43,22 @@ body {
 
 #MatchText {
   position: absolute;
-  top: 20px;
-  left: 0;
-  width: 1920px;
+  top: 255px; /* Sesuaikan turun/naiknya dari desain */
+  right: 0px;
+  font-family: "Poppins", sans-serif;
+  font-size: 48px;
+  font-weight: 900;
   text-align: center;
-  font-size: 32px;
+  width: 300px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-  margin: 0;
 }
 
 #StageText {
   position: absolute;
-  top: 65px;
-  left: 0;
-  width: 1920px;
-  text-align: center;
+  top: 235px; /* Sesuaikan turun/naiknya dari desain, biasanya di bawah match */
+  right: 0px;
   font-size: 24px;
-  color: #ffd700;
+  text-align: center;
+  width: 300px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-  margin: 0;
 }

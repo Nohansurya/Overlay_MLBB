@@ -14,14 +14,10 @@
   </head>
   <body>
     <!-- LAYER 1: BACKGROUND -->
+    <!-- Diberi ID dan diset ke file default BO1 -->
     <img
-      src="assets/In-Game Overlay.png"
-      class="background-overlay"
-      alt="Background"
-    />
-    <!-- LAYER 1: BACKGROUND -->
-    <img
-      src="assets/In-Game Overlay.png"
+      id="BgOverlay"
+      src="assets/In-Game Overlay(1).png"
       class="background-overlay"
       alt="Background"
     />
@@ -66,8 +62,17 @@
       const imgLogoKiri = document.getElementById("logoTimKiri");
       const imgLogoKanan = document.getElementById("logoTimKanan");
 
+      // Elemen DOM Poin (INI YANG SEBELUMNYA TERLEWAT)
+      const imgPoin = document.getElementById("PoinGambar");
+
       socket.on("terima_data", (data) => {
         console.log("Data Update Diterima:", data);
+
+        // Update Background BO
+        if (data.boValue !== undefined) {
+          document.getElementById("BgOverlay").src =
+            `assets/In-Game Overlay(${data.boValue}).png`;
+        }
 
         // Update teks nama tim
         if (data.namaTimKiri !== undefined)
@@ -84,6 +89,7 @@
         if (data.matchText !== undefined) teksMatch.innerText = data.matchText;
         if (data.stageText !== undefined) teksStage.innerText = data.stageText;
 
+        // Update Poin
         if (data.poinImage !== undefined) {
           imgPoin.src = data.poinImage;
         }

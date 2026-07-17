@@ -43,7 +43,7 @@ body {
 #teksTimKiri {
   position: absolute;
   top: 61px;
-  left: 611px;
+  left: 503px;
   font-size: 40px;
   font-weight: regular;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
@@ -52,7 +52,7 @@ body {
 #teksTimKanan {
   position: absolute;
   top: 61px;
-  right: 606px;
+  right: 511px;
   font-size: 40px;
   font-weight: regular;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
@@ -71,7 +71,7 @@ body {
 #logoTimKiri {
   position: absolute;
   top: 12px;
-  left: 400px;
+  left: 356px;
   width: 100px;
   height: 100px;
   object-fit: contain;
@@ -80,7 +80,7 @@ body {
 #logoTimKanan {
   position: absolute;
   top: 12px;
-  right: 400px;
+  right: 364px;
   width: 100px;
   height: 100px;
   object-fit: contain;
@@ -108,9 +108,9 @@ body {
 
 #StageText {
   position: absolute;
-  top: 235px; /* Sesuaikan turun/naiknya dari desain, biasanya di bawah match */
+  top: 231px; /* Sesuaikan turun/naiknya dari desain, biasanya di bawah match */
   right: 0px;
-  font-size: 24px;
+  font-size: 32px;
   text-align: center;
   width: 300px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
