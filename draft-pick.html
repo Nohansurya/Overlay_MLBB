@@ -15,7 +15,6 @@
     />
 
     <!-- LAYER 2: SISTEM POIN DRAFT PICK -->
-    <!-- Memanggil file default 0-0(1).png dari folder poin-draft -->
     <img
       id="PoinGambarDraft"
       src="assets/poin-draft/0-0(1).png"
@@ -25,8 +24,14 @@
 
     <!-- LAYER 3: TEKS DINAMIS -->
     <div class="data-container">
+      <div class="teksTim" id="teksTimKiri">TIM A</div>
+      <div class="teksTim" id="teksTimKanan">TIM B</div>
+
       <div id="MatchText">MATCH 1</div>
       <div id="StageText">GROUP STAGE A</div>
+
+      <!-- ELEMEN BARU: Caster -->
+      <div id="Caster">Adi - Udin</div>
     </div>
 
     <!-- Script Node.js / Socket.io -->
@@ -34,19 +39,40 @@
     <script>
       const socket = io();
 
+      // Elemen DOM Teks
       const teksMatch = document.getElementById("MatchText");
       const teksStage = document.getElementById("StageText");
-      const imgPoinDraft = document.getElementById("PoinGambarDraft"); // Tangkap elemen gambar poin
+      const imgPoinDraft = document.getElementById("PoinGambarDraft");
+      const teksKiri = document.getElementById("teksTimKiri");
+      const teksKanan = document.getElementById("teksTimKanan");
+
+      // ELEMEN DOM BARU: Caster
+      const teksCaster = document.getElementById("Caster");
 
       socket.on("terima_data", (data) => {
         console.log("Data Draft Pick Diterima:", data);
 
+        // Update Background BO
+        if (data.boValue !== undefined) {
+          document.getElementById("BgDraft").src =
+            `assets/Draft-Pick Overlay(${data.boValue}).png`;
+        }
+
+        // Update Nama Tim Kiri dan Kanan
+        if (data.namaTimKiri !== undefined)
+          teksKiri.innerText = data.namaTimKiri;
+        if (data.namaTimKanan !== undefined)
+          teksKanan.innerText = data.namaTimKanan;
+
+        // Update Match dan Stage
         if (data.matchText !== undefined) teksMatch.innerText = data.matchText;
         if (data.stageText !== undefined) teksStage.innerText = data.stageText;
 
-        // LOGIKA BARU: Manipulasi direktori gambar poin
+        // UPDATE BARU: Caster
+        if (data.caster !== undefined) teksCaster.innerText = data.caster;
+
+        // Manipulasi direktori gambar poin
         if (data.poinImage !== undefined) {
-          // Mengubah 'assets/poin/' menjadi 'assets/poin-draft/'
           const pathDraft = data.poinImage.replace(
             "assets/poin/",
             "assets/poin-draft/",

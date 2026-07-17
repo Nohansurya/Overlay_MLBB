@@ -43,22 +43,52 @@ body {
 
 #MatchText {
   position: absolute;
-  top: 255px; /* Sesuaikan turun/naiknya dari desain */
-  right: 0px;
+  bottom: 66px;
+  right: 707px;
   font-family: "Poppins", sans-serif;
-  font-size: 48px;
+  font-size: 80px;
   font-weight: 900;
   text-align: center;
-  width: 300px;
+  width: 500px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
 }
 
 #StageText {
   position: absolute;
-  top: 235px; /* Sesuaikan turun/naiknya dari desain, biasanya di bawah match */
-  right: 0px;
-  font-size: 24px;
+  bottom: 57px;
+  right: 755px;
+  font-size: 61px;
   text-align: center;
-  width: 300px;
+  width: 400px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+#teksTimKiri {
+  position: absolute;
+  top: 11px;
+  left: 16px;
+  font-size: 74px;
+  word-spacing: -10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+#teksTimKanan {
+  position: absolute;
+  top: 11px;
+  right: 16px;
+  font-size: 74px;
+  word-spacing: -10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Pengaturan Posisi Caster di Draft Pick */
+#Caster {
+  position: absolute;
+  top: 102px;
+  left: 13%;
+  transform: translateX(-50%);
+  font-size: 43px;
+  text-align: center;
+  width: 400px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
