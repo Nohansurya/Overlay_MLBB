@@ -14,12 +14,20 @@
       alt="Background Draft Pick"
     />
 
-    <!-- LAYER 2: SISTEM POIN DRAFT PICK -->
+    <!-- LAYER 2: SISTEM POIN DRAFT PICK (Layer Timpa) -->
     <img
-      id="PoinGambarDraft"
-      src="assets/poin-draft/0-0(1).png"
+      id="PoinDraftKiri"
       class="points-overlay"
-      alt="Score Points Draft"
+      src=""
+      style="display: none"
+      alt="Score Kiri"
+    />
+    <img
+      id="PoinDraftKanan"
+      class="points-overlay"
+      src=""
+      style="display: none"
+      alt="Score Kanan"
     />
 
     <!-- LAYER 3: TEKS DINAMIS -->
@@ -42,12 +50,13 @@
       // Elemen DOM Teks
       const teksMatch = document.getElementById("MatchText");
       const teksStage = document.getElementById("StageText");
-      const imgPoinDraft = document.getElementById("PoinGambarDraft");
       const teksKiri = document.getElementById("teksTimKiri");
       const teksKanan = document.getElementById("teksTimKanan");
-
-      // ELEMEN DOM BARU: Caster
       const teksCaster = document.getElementById("Caster");
+
+      // Elemen DOM Poin
+      const imgPoinKiri = document.getElementById("PoinDraftKiri");
+      const imgPoinKanan = document.getElementById("PoinDraftKanan");
 
       socket.on("terima_data", (data) => {
         console.log("Data Draft Pick Diterima:", data);
@@ -58,26 +67,33 @@
             `assets/Draft-Pick Overlay(${data.boValue}).png`;
         }
 
-        // Update Nama Tim Kiri dan Kanan
+        // Update Teks
         if (data.namaTimKiri !== undefined)
           teksKiri.innerText = data.namaTimKiri;
         if (data.namaTimKanan !== undefined)
           teksKanan.innerText = data.namaTimKanan;
-
-        // Update Match dan Stage
         if (data.matchText !== undefined) teksMatch.innerText = data.matchText;
         if (data.stageText !== undefined) teksStage.innerText = data.stageText;
-
-        // UPDATE BARU: Caster
         if (data.caster !== undefined) teksCaster.innerText = data.caster;
 
-        // Manipulasi direktori gambar poin
-        if (data.poinImage !== undefined) {
-          const pathDraft = data.poinImage.replace(
-            "assets/poin/",
-            "assets/poin-draft/",
-          );
-          imgPoinDraft.src = pathDraft;
+        // Update Poin Tim Kiri
+        if (data.skorKiri !== undefined) {
+          if (data.skorKiri > 0) {
+            imgPoinKiri.src = `assets/poin-draft/score_kiri_${data.skorKiri}.png`;
+            imgPoinKiri.style.display = "block";
+          } else {
+            imgPoinKiri.style.display = "none";
+          }
+        }
+
+        // Update Poin Tim Kanan
+        if (data.skorKanan !== undefined) {
+          if (data.skorKanan > 0) {
+            imgPoinKanan.src = `assets/poin-draft/score_kanan_${data.skorKanan}.png`;
+            imgPoinKanan.style.display = "block";
+          } else {
+            imgPoinKanan.style.display = "none";
+          }
         }
       });
     </script>

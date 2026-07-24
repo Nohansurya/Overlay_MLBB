@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <title>Overlay Tampilan</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,8 +12,7 @@
     <link rel="stylesheet" href="css/overlay.css" />
   </head>
   <body>
-    <!-- LAYER 1: BACKGROUND -->
-    <!-- Diberi ID dan diset ke file default BO1 -->
+    <!-- LAYER 1: BACKGROUND BO -->
     <img
       id="BgOverlay"
       src="assets/In-Game Overlay(1).png"
@@ -22,16 +20,24 @@
       alt="Background"
     />
 
-    <!-- LAYER 2: SISTEM POIN (Shape Statis) -->
-    <!-- Default state memanggil poin 0-0 di BO1 agar shape awal terlihat -->
+    <!-- LAYER 2: FILL POIN KIRI KANAN -->
+    <!-- Default src kosong, display none agar stroke background tidak tertimpa -->
     <img
-      id="PoinGambar"
-      src="assets/poin/0-0(1).png"
+      id="PoinKiri"
       class="points-overlay"
-      alt="Score Points"
+      src=""
+      style="display: none"
+      alt="Score Kiri"
+    />
+    <img
+      id="PoinKanan"
+      class="points-overlay"
+      src=""
+      style="display: none"
+      alt="Score Kanan"
     />
 
-    <!-- LAYER 3: TEKS & LOGO DINAMIS -->
+    <!-- LAYER 3: TEKS & LOGO -->
     <div class="data-container">
       <img id="logoTimKiri" src="assets/logo-kiri.jpg" alt="Logo Kiri" />
       <div class="teksTim" id="teksTimKiri"><p>TIM A</p></div>
@@ -40,60 +46,126 @@
       <div class="teksTim" id="teksTimKanan"><p>TIM B</p></div>
 
       <div id="Caster">Adi - Udin</div>
-
-      <!-- TEXT BARU UNTUK MATCH & STAGE -->
       <div id="MatchText">MATCH 1</div>
       <div id="StageText">GROUP STAGE A</div>
+
+      <div id="ocr-time" class="ocr-text">00:00</div>
+      <div id="ocr-blue-kill" class="ocr-text">0</div>
+      <div id="ocr-blue-gold" class="ocr-text">0</div>
+      <div id="ocr-blue-turret" class="ocr-text">0</div>
+      <div id="ocr-blue-lord" class="ocr-text">0</div>
+      <div id="ocr-red-kill" class="ocr-text">0</div>
+      <div id="ocr-red-gold" class="ocr-text">0</div>
+      <div id="ocr-red-turret" class="ocr-text">0</div>
+      <div id="ocr-red-lord" class="ocr-text">0</div>
     </div>
 
-    <!-- Script Node.js -->
+    <!-- LAYER 4: DATA OCR REAL-TIME -->
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io();
 
-      // Elemen DOM Teks & Caster
       const teksKiri = document.getElementById("teksTimKiri");
       const teksKanan = document.getElementById("teksTimKanan");
       const teksCaster = document.getElementById("Caster");
       const teksMatch = document.getElementById("MatchText");
       const teksStage = document.getElementById("StageText");
 
-      // Elemen DOM Logo
       const imgLogoKiri = document.getElementById("logoTimKiri");
       const imgLogoKanan = document.getElementById("logoTimKanan");
 
-      // Elemen DOM Poin (INI YANG SEBELUMNYA TERLEWAT)
-      const imgPoin = document.getElementById("PoinGambar");
+      const imgPoinKiri = document.getElementById("PoinKiri");
+      const imgPoinKanan = document.getElementById("PoinKanan");
+
+      let urlOCR = "http://localhost:14337/MLBB.json";
 
       socket.on("terima_data", (data) => {
-        console.log("Data Update Diterima:", data);
+        if (data.ipOCR !== undefined && data.ipOCR !== "") {
+          urlOCR = `http://${data.ipOCR}:14337/MLBB.json`;
+        } else if (data.ipOCR === "") {
+          urlOCR = "http://localhost:14337/MLBB.json";
+        }
 
-        // Update Background BO
         if (data.boValue !== undefined) {
           document.getElementById("BgOverlay").src =
             `assets/In-Game Overlay(${data.boValue}).png`;
         }
 
-        // Update teks nama tim
         if (data.namaTimKiri !== undefined)
           teksKiri.innerText = data.namaTimKiri;
         if (data.namaTimKanan !== undefined)
           teksKanan.innerText = data.namaTimKanan;
-
-        // Update source gambar logo
         if (data.logoKiri !== undefined) imgLogoKiri.src = data.logoKiri;
         if (data.logoKanan !== undefined) imgLogoKanan.src = data.logoKanan;
-
-        // Update teks caster, match, dan stage
         if (data.caster !== undefined) teksCaster.innerText = data.caster;
         if (data.matchText !== undefined) teksMatch.innerText = data.matchText;
         if (data.stageText !== undefined) teksStage.innerText = data.stageText;
 
-        // Update Poin
-        if (data.poinImage !== undefined) {
-          imgPoin.src = data.poinImage;
+        // Logika Eksekusi Fill Poin
+        if (data.skorKiri !== undefined) {
+          if (data.skorKiri > 0) {
+            imgPoinKiri.src = `assets/poin/score_kiri_${data.skorKiri}.png`;
+            imgPoinKiri.style.display = "block";
+          } else {
+            imgPoinKiri.style.display = "none";
+          }
+        }
+
+        if (data.skorKanan !== undefined) {
+          if (data.skorKanan > 0) {
+            imgPoinKanan.src = `assets/poin/score_kanan_${data.skorKanan}.png`;
+            imgPoinKanan.style.display = "block";
+          } else {
+            imgPoinKanan.style.display = "none";
+          }
         }
       });
+
+      function bersihkanTeks(teks) {
+        if (teks === undefined || teks === null) return "0";
+        return teks.toString().replace(/o/gi, "0");
+      }
+
+      async function fetchDataOCR() {
+        try {
+          const response = await fetch(`${urlOCR}?t=${new Date().getTime()}`);
+          if (response.ok) {
+            const dataOCR = await response.json();
+            if (dataOCR["Time"] !== undefined)
+              document.getElementById("ocr-time").innerText = dataOCR["Time"];
+            if (dataOCR["Blue Kill"] !== undefined)
+              document.getElementById("ocr-blue-kill").innerText =
+                bersihkanTeks(dataOCR["Blue Kill"]);
+            if (dataOCR["Blue Gold"] !== undefined)
+              document.getElementById("ocr-blue-gold").innerText =
+                bersihkanTeks(dataOCR["Blue Gold"]);
+            if (dataOCR["Blue Turret"] !== undefined)
+              document.getElementById("ocr-blue-turret").innerText =
+                bersihkanTeks(dataOCR["Blue Turret"]);
+            if (dataOCR["Blue Lord"] !== undefined)
+              document.getElementById("ocr-blue-lord").innerText =
+                bersihkanTeks(dataOCR["Blue Lord"]);
+            if (dataOCR["Red Kill"] !== undefined)
+              document.getElementById("ocr-red-kill").innerText = bersihkanTeks(
+                dataOCR["Red Kill"],
+              );
+            if (dataOCR["Red Gold"] !== undefined)
+              document.getElementById("ocr-red-gold").innerText = bersihkanTeks(
+                dataOCR["Red Gold"],
+              );
+            if (dataOCR["Red Turret"] !== undefined)
+              document.getElementById("ocr-red-turret").innerText =
+                bersihkanTeks(dataOCR["Red Turret"]);
+            if (dataOCR["Red Lord"] !== undefined)
+              document.getElementById("ocr-red-lord").innerText = bersihkanTeks(
+                dataOCR["Red Lord"],
+              );
+          }
+        } catch (error) {}
+      }
+
+      setInterval(fetchDataOCR, 200);
     </script>
   </body>
 </html>

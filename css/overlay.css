@@ -41,21 +41,25 @@ body {
 }
 
 #teksTimKiri {
+  /* font-family: "Poppins", sans-serif; */
+  /* font-weight: 900; */
+  color: #234773;
   position: absolute;
-  top: 61px;
+  top: 57px;
   left: 503px;
   font-size: 40px;
   font-weight: regular;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); */
 }
 
 #teksTimKanan {
+  color: #234773;
   position: absolute;
-  top: 61px;
+  top: 56px;
   right: 511px;
   font-size: 40px;
   font-weight: regular;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); */
 }
 
 #Caster {
@@ -70,18 +74,18 @@ body {
 
 #logoTimKiri {
   position: absolute;
-  top: 12px;
-  left: 356px;
-  width: 100px;
+  top: -4px;
+  left: 361px;
+  width: 70px;
   height: 100px;
   object-fit: contain;
 }
 
 #logoTimKanan {
   position: absolute;
-  top: 12px;
-  right: 364px;
-  width: 100px;
+  top: -4px;
+  right: 360px;
+  width: 70px;
   height: 100px;
   object-fit: contain;
 }
@@ -114,4 +118,79 @@ body {
   text-align: center;
   width: 300px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+/* =======================================
+   STYLING TEKS REAL-TIME OCR
+   ======================================= */
+.ocr-text {
+  font-family: "Poppins", sans-serif;
+  position: absolute;
+  font-weight: bold;
+  z-index: 5; /* Memastikan teks selalu berada di lapisan paling atas */
+}
+
+/* --- WAKTU PERTANDINGAN --- */
+#ocr-time {
+  color: #234773;
+  top: 65px;
+  left: 50%;
+  transform: translateX(-43%);
+  font-size: 19px;
+}
+
+/* --- TIM BIRU (KIRI) --- */
+#ocr-blue-kill {
+  color: #234773;
+  top: 0px;
+  left: 883px; /* Titik acuan posisi Anda */
+  width: 100px; /* Berikan lebar pasti, sesuaikan besar kotaknya */
+  transform: translateX(
+    -50%
+  ); /* Menarik titik tengah elemen tepat ke koordinat 'left' */
+  text-align: center; /* Membuat teks di dalamnya otomatis rata tengah */
+  font-size: 36px;
+}
+#ocr-blue-gold {
+  top: 10px;
+  left: 738px; /* Atur posisi Gold Tim Biru */
+  font-size: 24px;
+}
+#ocr-blue-turret {
+  top: 10px;
+  left: 642px; /* Atur posisi Turret Tim Biru */
+  font-size: 24px;
+}
+#ocr-blue-lord {
+  top: 10px;
+  left: 544px; /* Atur posisi Lord Tim Biru */
+  font-size: 24px;
+}
+
+/* --- TIM MERAH (KANAN) --- */
+#ocr-red-kill {
+  color: #234773;
+  top: 0px;
+  right: 875px; /* Titik acuan posisi kanan Anda */
+  width: 100px; /* Berikan lebar pasti untuk area kotak angka */
+  transform: translateX(
+    50%
+  ); /* Menarik titik tengah elemen agar pas di titik acuan 'right' */
+  text-align: center; /* Membuat angka di dalamnya otomatis rata tengah */
+  font-size: 36px;
+}
+#ocr-red-gold {
+  top: 10px;
+  right: 736px; /* Atur posisi Gold Tim Merah */
+  font-size: 24px;
+}
+#ocr-red-turret {
+  top: 10px;
+  right: 639px; /* Atur posisi Turret Tim Merah */
+  font-size: 24px;
+}
+#ocr-red-lord {
+  top: 10px;
+  right: 540px; /* Atur posisi Lord Tim Merah */
+  font-size: 24px;
 }

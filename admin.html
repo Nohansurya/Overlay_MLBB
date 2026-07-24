@@ -9,14 +9,10 @@
     <div class="dashboard-wrapper">
       <h1 class="page-title">MLBB OVERLAY CONTROL PANEL</h1>
 
-      <!-- ==========================================
-           SECTION 1: OVERLAY UTAMA (IN-GAME & DRAFT)
-           ========================================== -->
       <div class="section-block">
         <h2 class="section-header">1. Kontrol Overlay Utama</h2>
 
         <div class="grid-4">
-          <!-- Panel Tim -->
           <div class="box">
             <h2>Logo & Team Panel</h2>
             <label for="logo-kiri">Pilih Tim Kiri:</label>
@@ -29,7 +25,6 @@
             </select>
           </div>
 
-          <!-- Panel Match Control -->
           <div class="box">
             <h2>Match Control</h2>
             <label for="input-match">Keterangan Match:</label>
@@ -39,6 +34,7 @@
               placeholder="Contoh: Match 1 / Game 1"
               autocomplete="off"
             />
+
             <label for="input-stage">Jenis Stage:</label>
             <input
               type="text"
@@ -46,9 +42,16 @@
               placeholder="Contoh: Group Stage A"
               autocomplete="off"
             />
+
+            <label for="input-ip-ocr">IP Aplikasi OCR (Opsional):</label>
+            <input
+              type="text"
+              id="input-ip-ocr"
+              placeholder="Contoh: 192.168.1.5"
+              autocomplete="off"
+            />
           </div>
 
-          <!-- Panel Poin Game -->
           <div class="box">
             <h2>Poin Game</h2>
             <label for="select-bo">Kategori Match (BO):</label>
@@ -56,7 +59,6 @@
               <option value="1">Best of 1</option>
               <option value="3">Best of 3</option>
               <option value="5">Best of 5</option>
-              <option value="7">Best of 7</option>
             </select>
             <div class="score-container">
               <div class="score-team">
@@ -70,7 +72,6 @@
             </div>
           </div>
 
-          <!-- Panel Caster -->
           <div class="box">
             <h2>Caster Panel</h2>
             <label for="input-caster">Nama Caster:</label>
@@ -83,15 +84,11 @@
           </div>
         </div>
 
-        <!-- Tombol Update Khusus Section Utama -->
         <button id="btn-update" class="btn-main-update">
           KIRIM KE OVERLAY UTAMA
         </button>
       </div>
 
-      <!-- ==========================================
-           SECTION 2: PRE-MATCH COUNTDOWN
-           ========================================== -->
       <div class="section-block">
         <h2 class="section-header">2. Kontrol Countdown Pre-Match</h2>
 
@@ -126,9 +123,6 @@
         </div>
       </div>
 
-      <!-- ==========================================
-           SECTION 3: PRE-MATCH SCHEDULE
-           ========================================== -->
       <div class="section-block">
         <h2 class="section-header">
           3. Jadwal & Hasil Pertandingan (Pre-Match)
@@ -162,7 +156,6 @@
               <option value="BO1">Best of 1</option>
               <option value="BO3">Best of 3</option>
               <option value="BO5">Best of 5</option>
-              <option value="BO7">Best of 7</option>
             </select>
           </div>
 
@@ -193,7 +186,6 @@
               <option value="BO1">Best of 1</option>
               <option value="BO3">Best of 3</option>
               <option value="BO5">Best of 5</option>
-              <option value="BO7">Best of 7</option>
             </select>
           </div>
 
@@ -224,7 +216,6 @@
               <option value="BO1">Best of 1</option>
               <option value="BO3">Best of 3</option>
               <option value="BO5">Best of 5</option>
-              <option value="BO7">Best of 7</option>
             </select>
           </div>
         </div>
@@ -235,7 +226,6 @@
       </div>
     </div>
 
-    <!-- Script Node.js -->
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io();
@@ -254,6 +244,7 @@
       const inputCaster = document.getElementById("input-caster");
       const inputMatch = document.getElementById("input-match");
       const inputStage = document.getElementById("input-stage");
+      const inputIpOcr = document.getElementById("input-ip-ocr");
       const selectBo = document.getElementById("select-bo");
       const checkKiriContainer = document.getElementById("check-kiri");
       const checkKananContainer = document.getElementById("check-kanan");
@@ -277,7 +268,6 @@
         let maxPoin = 1;
         if (boValue === 3) maxPoin = 2;
         if (boValue === 5) maxPoin = 3;
-        if (boValue === 7) maxPoin = 4;
 
         function buatCheck(container) {
           container.innerHTML = "";
@@ -295,7 +285,6 @@
       selectBo.addEventListener("change", renderCheckboxes);
       renderCheckboxes();
 
-      // FUNGSI 1: KIRIM OVERLAY UTAMA
       btnUpdate.addEventListener("click", () => {
         const timKiri = dropdowns.kiri;
         const timKanan = dropdowns.kanan;
@@ -306,6 +295,7 @@
           ? timKanan.options[timKanan.selectedIndex].text
           : "";
 
+        // Mengirimkan data skor berupa angka murni (tanpa format nama file .png)
         const skorKiri = document.querySelectorAll(
           "#check-kiri input:checked",
         ).length;
@@ -313,7 +303,6 @@
           "#check-kanan input:checked",
         ).length;
         const boActive = selectBo.value;
-        const poinFile = `assets/poin/${skorKiri}-${skorKanan}(${boActive}).png`;
 
         socket.emit("update_overlay", {
           logoKiri: timKiri.value,
@@ -323,14 +312,15 @@
           caster: inputCaster.value,
           matchText: inputMatch.value,
           stageText: inputStage.value,
-          poinImage: poinFile,
+          ipOCR: inputIpOcr.value,
           boValue: boActive,
+          skorKiri: skorKiri,
+          skorKanan: skorKanan,
         });
 
         alert("Data Overlay Utama (In-Game & Draft) berhasil dikirim!");
       });
 
-      // FUNGSI 2: COUNTDOWN
       const inputMenit = document.getElementById("input-menit");
       const inputDetik = document.getElementById("input-detik");
       const btnStartTimer = document.getElementById("btn-start-timer");
@@ -354,7 +344,6 @@
         });
       });
 
-      // FUNGSI 3: SCHEDULE PRE-MATCH
       document
         .getElementById("btn-update-schedule")
         .addEventListener("click", () => {
